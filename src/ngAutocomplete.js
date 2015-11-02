@@ -42,6 +42,7 @@ angular.module( "ngAutocomplete", [])
         //options for autocomplete
         var opts
         var watchEnter = false
+        var watchChange = false
         //convert options provided to opts
         var initOpts = function() {
 
@@ -52,6 +53,12 @@ angular.module( "ngAutocomplete", [])
               watchEnter = false
             } else {
               watchEnter = true
+            }
+
+            if (scope.options.watchChange !== true) {
+              watchChange = false
+            } else {
+              watchChange = true
             }
 
             if (scope.options.types) {
@@ -147,6 +154,12 @@ angular.module( "ngAutocomplete", [])
               });
           }
         }
+
+        $(element).change(function(o){
+          if (watchChange) {
+            getPlace({name:$(this).val()});
+          }
+        });
 
         controller.$render = function () {
           var location = controller.$viewValue;
